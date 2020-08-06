@@ -13,7 +13,7 @@ import (
 
 func copyToClipboard(file string) error {
 	cmd := exec.Command("PowerShell", "-Command", "Add-Type", "-AssemblyName",
-		fmt.Sprintf("System.Windows.Forms;[Windows.Forms.Clipboard]::SetImage([System.Drawing.Image]::FromFile('%s'));", f.Name()))
+		fmt.Sprintf("System.Windows.Forms;[Windows.Forms.Clipboard]::SetImage([System.Drawing.Image]::FromFile('%s'));", file))
 	b, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, string(b))
@@ -26,17 +26,22 @@ func readFromClipboard() (io.Reader, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	f.Close()
 	defer os.Remove(f.Name())
 
 	cmd := exec.Command("PowerShell", "-Command", "Add-Type", "-AssemblyName",
-		fmt.Sprintf("System.Windows.Forms;$clip=[Windows.Forms.Clipboard]::GetImage();if ($clip -ne $null) { $clip.Save('%s') }", f.Name()))
+		fmt.Sprintf("System.Windows.Forms;$clip=[Windows.Forms.Clipboard]::GetImage();if ($clip -ne $null) { $clip.Save('%s') };", f.Name()))
 	b, err := cmd.CombinedOutput()
 	if err != nil {
 		return nil, fmt.Errorf("%s: %s", err, string(b))
 	}
 
 	r := new(bytes.Buffer)
+	f, err = os.Open(f.Name())
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
 
 	if _, err := io.Copy(r, f); err != nil {
 		return nil, err
