@@ -31,6 +31,7 @@ func copyToClipboard(file string) error {
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
 	if _, err := io.Copy(in, f); err != nil {
 		return err
