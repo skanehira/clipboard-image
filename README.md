@@ -42,3 +42,6 @@ if _, err := io.Copy(f, r); err != nil {
 	log.Fatal(err)
 }
 ```
+
+## Author
+skanehira
