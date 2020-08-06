@@ -19,7 +19,7 @@ if err != nil {
 }
 deder f.Close()
 
-if err := Rclipboard.CopyToClipboard(f); err != nil {
+if err := clipboard.CopyToClipboard(f); err != nil {
 	log.Fatal(err)
 }
 ```
@@ -27,7 +27,7 @@ if err := Rclipboard.CopyToClipboard(f); err != nil {
 Read image file from clipboard.
 
 ```go
-r, err := Rclipboard.eadFromClipboard()
+r, err := clipboard.ReadFromClipboard()
 if err != nil {
 	log.Fatal(err)
 }
