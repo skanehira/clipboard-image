@@ -3,9 +3,11 @@
 package clipboard
 
 import (
-	"errors"
+	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
+	"os"
 	"os/exec"
 )
 
@@ -20,5 +22,30 @@ func copyToClipboard(file string) error {
 }
 
 func readFromClipboard() (io.Reader, error) {
-	return nil, errors.New("mac os doesn't support")
+	f, err := ioutil.TempFile("", "")
+	if err != nil {
+		return nil, err
+	}
+	f.Close()
+	defer os.Remove(f.Name())
+
+	cmd := exec.Command("osascript", "-e",
+		fmt.Sprintf("write (the clipboard as «class PNGf») to (open for access \"%s\" with write permission)", f.Name()))
+	b, err := cmd.CombinedOutput()
+	if err != nil {
+		return nil, fmt.Errorf("%s: %s", err, string(b))
+	}
+
+	buf := new(bytes.Buffer)
+	f, err = os.Open(f.Name())
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	if _, err := io.Copy(buf, f); err != nil {
+		return nil, err
+	}
+
+	return buf, nil
 }
