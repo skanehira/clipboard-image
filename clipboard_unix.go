@@ -10,7 +10,7 @@ import (
 	"os/exec"
 )
 
-func copyToClipboard(file string) error {
+func write(file string) error {
 	b, err := exec.Command("file", "-b", "--mime-type", file).CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, string(b))
@@ -44,7 +44,7 @@ func copyToClipboard(file string) error {
 	return cmd.Wait()
 }
 
-func readFromClipboard() (io.Reader, error) {
+func read() (io.Reader, error) {
 	cmd := exec.Command("xclip", "-selection", "clipboard", "-t", "image/png", "-o")
 	r, err := cmd.StdoutPipe()
 	if err != nil {

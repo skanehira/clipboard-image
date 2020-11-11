@@ -14,13 +14,13 @@ func TestCopyToClipboard(t *testing.T) {
 	}
 	defer r.Close()
 
-	if err := CopyToClipboard(r); err != nil {
+	if err := Write(r); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestReadFromClipboard(t *testing.T) {
-	r, err := ReadFromClipboard()
+	r, err := Read()
 	if err != nil {
 		t.Fatal(err)
 	}

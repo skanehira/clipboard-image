@@ -11,7 +11,7 @@ import (
 	"os/exec"
 )
 
-func copyToClipboard(file string) error {
+func write(file string) error {
 	cmd := exec.Command("PowerShell", "-Command", "Add-Type", "-AssemblyName",
 		fmt.Sprintf("System.Windows.Forms;[Windows.Forms.Clipboard]::SetImage([System.Drawing.Image]::FromFile('%s'));", file))
 	b, err := cmd.CombinedOutput()
@@ -21,7 +21,7 @@ func copyToClipboard(file string) error {
 	return nil
 }
 
-func readFromClipboard() (io.Reader, error) {
+func read() (io.Reader, error) {
 	f, err := ioutil.TempFile("", "")
 	if err != nil {
 		return nil, err
