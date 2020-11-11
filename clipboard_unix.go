@@ -45,8 +45,7 @@ func copyToClipboard(file string) error {
 }
 
 func readFromClipboard() (io.Reader, error) {
-	// b has new line
-	cmd := exec.Command("xclip", "-selection", "clipboard", "-o")
+	cmd := exec.Command("xclip", "-selection", "clipboard", "-t", "image/png", "-o")
 	r, err := cmd.StdoutPipe()
 	if err != nil {
 		return nil, err
