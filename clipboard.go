@@ -6,19 +6,19 @@ import (
 	"os"
 )
 
-// CopyToClipboard copy image to clipboard
-func CopyToClipboard(r io.Reader) error {
+// Write write image to clipboard
+func Write(r io.Reader) error {
 	f, err := writeTemp(r)
 	if err != nil {
 		return err
 	}
 	defer os.Remove(f)
-	return copyToClipboard(f)
+	return write(f)
 }
 
-// ReadFromClipboard read image from clipboard
-func ReadFromClipboard() (io.Reader, error) {
-	return readFromClipboard()
+// Read read image from clipboard
+func Read() (io.Reader, error) {
+	return read()
 }
 
 func writeTemp(r io.Reader) (string, error) {
