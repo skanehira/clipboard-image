@@ -8,6 +8,7 @@ Copy image to clipboard
 
 ## Requirements
 - xclip(linux only)
+- file(linux only)
 
 ## Usage
 Copy image file to clipboard.
@@ -19,7 +20,7 @@ if err != nil {
 }
 deder f.Close()
 
-if err := clipboard.CopyToClipboard(f); err != nil {
+if err := clipboard.Write(f); err != nil {
 	log.Fatal(err)
 }
 ```
@@ -27,7 +28,7 @@ if err := clipboard.CopyToClipboard(f); err != nil {
 Read image file from clipboard.
 
 ```go
-r, err := clipboard.ReadFromClipboard()
+r, err := clipboard.Read()
 if err != nil {
 	log.Fatal(err)
 }
