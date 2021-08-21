@@ -18,7 +18,7 @@ f, err := os.Open("image.png")
 if err != nil {
 	log.Fatal(err)
 }
-deder f.Close()
+defer f.Close()
 
 if err := clipboard.Write(f); err != nil {
 	log.Fatal(err)
