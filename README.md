@@ -10,6 +10,12 @@ Copy image to clipboard
 - xclip(linux only)
 - file(linux only)
 
+
+## Install
+```
+go get github.com/skanehira/clipboard-image/v2
+```
+
 ## Usage
 Copy image file to clipboard.
 
